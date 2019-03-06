@@ -1,0 +1,29 @@
+Installation
+For RHEL: Docker requires a RHEL7 instance.
+
+# Install the Docker package first: 
+yum install docker
+
+# Enable and start the docker service
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+
+# Download a image to run:
+sudo docker pull http://....
+Running
+sudo docker run --name=dockerrocks -i -t --rm=true --entrypoint=/bin/bash http://...
+
+# To bind mount a directory on the host inside the container:
+sudo docker run --name=devtest [--cap-add=SYS_PTRACE --security-opt seccomp=unconfined 
+] -v /home/pushkar/mappedindocker:/app -i -t --rm=true --entrypoint=/bin/bash http://...
+
+# In order for gdb to run normally by disabling ASLR pass these options when starting the container:
+--cap-add=SYS_PTRACE --security-opt seccomp=unconfined 
+
+Attaching to a running container:
+Get the hashtag or names using ‘docker ps’
+# This will attach to a docker instance and run the bash shell
+sudo docker exec -t -i dockerrocks bash
+Killing
+# Just invoke the docker kill command with the name of the container you want to kill
+sudo docker kill firstrhel7
